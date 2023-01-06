@@ -1,0 +1,73 @@
+version: '3.8'
+
+x-env-app: &api-env-variables
+    API_PORT: 3000
+
+x-env-front: &front-env-variables
+    FRONTEND_URL: https://localhost
+
+services:
+
+    gateway:
+        build:
+            context: gateway/docker
+            dockerfile: development/nginx/Dockerfile
+        ports:
+            - "8000:8000"
+            - "8001:8001"
+        depends_on:
+            - api-nginx
+#            - frontend-nginx
+
+    api-nginx:
+        build:
+            context: api/docker
+            dockerfile: development/nginx/Dockerfile
+        volumes:
+            - ./api:/app
+        depends_on:
+            - api-node
+
+    api-node:
+        build:
+            context: api/docker
+            dockerfile: development/node/Dockerfile
+        environment:
+            <<: *api-env-variables
+        volumes:
+            - ./api:/app
+        command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && npm nodemon src/index.js"
+        tty: true
+
+    api-node-cli:
+        build:
+            context: api/docker
+            dockerfile: development/node/Dockerfile
+        environment:
+            <<: *api-env-variables
+        volumes:
+            - ./api:/app
+
+#    frontend-nginx:
+#        build:
+#            context: frontend/docker/development/nginx
+#        depends_on:
+#            - frontend-node
+#
+#    frontend-node:
+#        build:
+#            context: frontend/docker/development/node
+#        environment:
+#            <<: *front-env-variables
+#        volumes:
+#            - ./frontend:/app
+#        command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && yarn start"
+#        tty: true
+#
+#    frontend-node-cli:
+#        build:
+#            context: frontend/docker/development/node
+#        environment:
+#            <<: *front-env-variables
+#        volumes:
+#            - ./frontend:/app
