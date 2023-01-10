@@ -32,3 +32,9 @@ api-init:
 
 api-node-cli:
 	docker-compose run --rm api-node-cli $(cmd)
+
+api-node-prisma-generate-migration:
+	docker-compose run --rm api-node-cli npx prisma migrate dev --name $(name)
+
+api-node-prisma-migration:
+	docker-compose run --rm api-node-cli npx prisma migrate deploy

@@ -36,7 +36,7 @@ services:
             <<: *api-env-variables
         volumes:
             - ./api:/app
-        command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && npm nodemon src/index.js"
+        command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && npm run server"
         tty: true
 
     api-node-cli:
