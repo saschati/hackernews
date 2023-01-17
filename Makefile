@@ -27,7 +27,9 @@ app-clear:
 app-init: api-init
 	docker run --rm -v ${PWD}/api:/app -w /app alpine sh -c 'touch .ready'
 
-api-init:
+api-init: api-npm-install api-node-prisma-migration
+
+api-npm-install:
 	docker-compose run --rm api-node-cli npm install
 
 api-node-cli:
@@ -38,3 +40,6 @@ api-node-prisma-generate-migration:
 
 api-node-prisma-migration:
 	docker-compose run --rm api-node-cli npx prisma migrate deploy
+
+api-logs:
+	docker-compose logs --follow api-node

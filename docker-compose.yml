@@ -1,7 +1,8 @@
 version: '3.8'
 
 x-env-app: &api-env-variables
-    API_PORT: 3000
+    APP_PORT: 3000
+    APP_SECRET: 'secret'
 
 x-env-front: &front-env-variables
     FRONTEND_URL: https://localhost
@@ -15,8 +16,10 @@ services:
         ports:
             - "8000:8000"
             - "8001:8001"
+            - "8002:8002"
         depends_on:
             - api-nginx
+            - api-node-prisma-studio
 #            - frontend-nginx
 
     api-nginx:
@@ -45,6 +48,14 @@ services:
             dockerfile: development/node/Dockerfile
         environment:
             <<: *api-env-variables
+        volumes:
+            - ./api:/app
+
+    api-node-prisma-studio:
+        build:
+            context: api/docker
+            dockerfile: development/node/Dockerfile
+        command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && npx prisma studio"
         volumes:
             - ./api:/app
 
