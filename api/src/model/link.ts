@@ -36,6 +36,7 @@ export const Schema = gql`
     description: String!
     url: String!
     postedBy: User
+    votes: [Vote!]!
   }
 `;
 
@@ -59,6 +60,8 @@ export const Resolver = {
     postedBy: (parent: Link, _: undefined, { prisma }: ServerContext) => {
       return prisma.link.findUnique({ where: { id: parent.id } }).postedBy();
     },
+    votes: (parent: Link, _: undefined, { prisma }: ServerContext) =>
+      prisma.link.findUnique({ where: { id: parent.id } }).votes(),
   },
   Mutation: {
     postLink: async (_: undefined, args: PostLinkArgs, { prisma, userId, pubsub }: ServerContext) => {

@@ -29,6 +29,7 @@ export const Schema = gql`
     name: String!
     email: String!
     links: [Link!]!
+    votes: [Vote!]!
   }
 `;
 
@@ -37,6 +38,8 @@ export const Resolver = {
     links: (parent: User, _: undefined, { prisma }: ServerContext) => {
       return prisma.user.findUnique({ where: { id: parent.id } }).links();
     },
+    votes: (parent: User, _: undefined, { prisma }: ServerContext) =>
+      prisma.user.findUnique({ where: { id: parent.id } }).votes(),
   },
   Mutation: {
     signup: async (_: undefined, args: SingUpArgs, { prisma }: ServerContext) => {
