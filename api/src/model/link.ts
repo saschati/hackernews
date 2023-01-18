@@ -1,8 +1,21 @@
 import { Link } from "@prisma/client";
 import gql from "graphql-tag";
+import { PagginationQueryArgs, Sort } from "../types/common";
 import { ServerContext } from "../types/server";
 
 export const SUBSCRIBE_LINK_NEW_LINK = "link_new_link";
+
+interface LinksSortArgs {
+  description: Sort;
+  url: Sort;
+  createdAt: Sort;
+}
+
+interface LinksQueryArgs {
+  filter: string;
+  paggin: PagginationQueryArgs;
+  orderBy: LinksSortArgs;
+}
 
 interface LinkArgs {
   id: number;
@@ -17,7 +30,7 @@ interface UpdateLinkArgs extends LinkArgs, PostLinkArgs {}
 
 export const Schema = gql`
   type Query {
-    links: [Link!]!
+    links(filter: String, paggin: Paggination, orderBy: LinkOrderByInput): LinkRecord!
     link(id: ID!): Link
   }
 
@@ -38,12 +51,41 @@ export const Schema = gql`
     postedBy: User
     votes: [Vote!]!
   }
+
+  input LinkOrderByInput {
+    description: Sort
+    url: Sort
+    createdAt: Sort
+  }
+
+  type LinkRecord implements Record {
+    records: [Link!]!
+    total: Int!
+  }
 `;
 
 export const Resolver = {
   Query: {
-    links: async (_: undefined, __: undefined, { prisma }: ServerContext) => {
-      return prisma.link.findMany();
+    links: async (_: undefined, { paggin, orderBy, ...args }: LinksQueryArgs, { prisma }: ServerContext) => {
+      const where = args.filter
+        ? {
+            OR: [{ description: { contains: args.filter } }, { url: { contains: args.filter } }],
+          }
+        : {};
+
+      const records = await prisma.link.findMany({
+        where,
+        skip: paggin?.skip || 0,
+        take: paggin?.take || 3,
+        orderBy,
+      });
+
+      const total = await prisma.link.count({ where });
+
+      return {
+        records,
+        total,
+      };
     },
     link: async (_: undefined, args: LinkArgs, { prisma }: ServerContext) => {
       return prisma.link.findFirst({ where: { id: Number(args.id) } });
