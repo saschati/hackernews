@@ -7,4 +7,4 @@ export interface ServerContext {
   userId: number | null;
 }
 
-export type WsConnectionParams = Record<'Authorization', string | undefined>
+export type WsConnectionParams = Record<"Authorization", string | undefined>;

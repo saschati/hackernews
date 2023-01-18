@@ -35,12 +35,17 @@ export const Resolver = {
   },
   Subscription: {
     newVote: {
-      subscribe: (_: undefined, __: undefined, { pubsub }: ServerContext) => pubsub.asyncIterator(SUBSCRIBE_VOTE_NEW_VOTE),
+      subscribe: (_: undefined, __: undefined, { pubsub }: ServerContext) =>
+        pubsub.asyncIterator(SUBSCRIBE_VOTE_NEW_VOTE),
       resolve: (payload: Vote) => payload,
     },
   },
   Mutation: {
-    vote: async (_: undefined, args: VoteArgs, { prisma, pubsub, userId }: ServerContext) => {
+    vote: async (
+      _: undefined,
+      args: VoteArgs,
+      { prisma, pubsub, userId }: ServerContext
+    ) => {
       if (!userId) {
         throw new Error("User can't be empty.");
       }

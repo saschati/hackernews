@@ -18,7 +18,8 @@ import { Context } from "graphql-ws/lib/server";
 
 const pubsub = new PubSub();
 const prisma = new PrismaClient();
-const port: number = (process.env.APP_PORT && Number(process.env.APP_PORT)) || 3000;
+const port: number =
+  (process.env.APP_PORT && Number(process.env.APP_PORT)) || 3000;
 
 const app: express.Express = express();
 const httpServer: http.Server = http.createServer(app);
@@ -35,7 +36,9 @@ const serverCleanup = useServer(
     context: async (context: Context<WsConnectionParams>) => ({
       prisma,
       pubsub,
-      userId: context.connectionParams ? getUserId(context.connectionParams.Authorization) : null,
+      userId: context.connectionParams
+        ? getUserId(context.connectionParams.Authorization)
+        : null,
     }),
   },
   wsServer
@@ -67,7 +70,10 @@ app.use(
     context: async ({ req }) => ({
       prisma,
       pubsub,
-      userId: req && req.headers.authorization ? getUserId(req.headers.authorization) : null,
+      userId:
+        req && req.headers.authorization
+          ? getUserId(req.headers.authorization)
+          : null,
     }),
   })
 );

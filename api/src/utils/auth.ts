@@ -11,7 +11,10 @@ const getTokenPayload = (token: string): TokenPayload => {
   return jwt.verify(token, APP_SECRET) as TokenPayload;
 };
 
-export const getUserId = (authHeader: string | undefined, authToken: string | null = null): number => {
+export const getUserId = (
+  authHeader: string | undefined,
+  authToken: string | null = null
+): number => {
   if (authHeader) {
     const token = authHeader.replace("Bearer ", "");
     if (!token) {
@@ -27,4 +30,3 @@ export const getUserId = (authHeader: string | undefined, authToken: string | nu
 
   throw new Error("Not authenticated");
 };
-

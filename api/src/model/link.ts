@@ -30,7 +30,11 @@ interface UpdateLinkArgs extends LinkArgs, PostLinkArgs {}
 
 export const Schema = gql`
   type Query {
-    links(filter: String, paggin: Paggination, orderBy: LinkOrderByInput): LinkRecord!
+    links(
+      filter: String
+      paggin: Paggination
+      orderBy: LinkOrderByInput
+    ): LinkRecord!
     link(id: ID!): Link
   }
 
@@ -66,12 +70,18 @@ export const Schema = gql`
 
 export const Resolver = {
   Query: {
-    links: async (_: undefined, { paggin, orderBy, ...args }: LinksQueryArgs, { prisma }: ServerContext) => {
-      const where = args.filter
-        ? {
-            OR: [{ description: { contains: args.filter } }, { url: { contains: args.filter } }],
-          }
-        : {};
+    links: async (
+      _: undefined,
+      { paggin, orderBy, ...args }: LinksQueryArgs,
+      { prisma }: ServerContext
+    ) => {
+      const condition = {
+        OR: [
+          { description: { contains: args.filter } },
+          { url: { contains: args.filter } },
+        ],
+      };
+      const where = args.filter ? condition : {};
 
       const records = await prisma.link.findMany({
         where,
@@ -106,7 +116,11 @@ export const Resolver = {
       prisma.link.findUnique({ where: { id: parent.id } }).votes(),
   },
   Mutation: {
-    postLink: async (_: undefined, args: PostLinkArgs, { prisma, userId, pubsub }: ServerContext) => {
+    postLink: async (
+      _: undefined,
+      args: PostLinkArgs,
+      { prisma, userId, pubsub }: ServerContext
+    ) => {
       if (!userId) {
         throw new Error("User not found.");
       }
@@ -123,8 +137,14 @@ export const Resolver = {
 
       return link;
     },
-    updateLink: async (_: undefined, args: UpdateLinkArgs, { prisma }: ServerContext) => {
-      const link = await prisma.link.findUnique({ where: { id: Number(args.id) } });
+    updateLink: async (
+      _: undefined,
+      args: UpdateLinkArgs,
+      { prisma }: ServerContext
+    ) => {
+      const link = await prisma.link.findUnique({
+        where: { id: Number(args.id) },
+      });
 
       if (!link) {
         throw new Error("Link cannot be empty.");
@@ -144,8 +164,14 @@ export const Resolver = {
 
       return updatedLink;
     },
-    deleteLink: async (_: undefined, args: LinkArgs, { prisma }: ServerContext) => {
-      const link = await prisma.link.findUnique({ where: { id: Number(args.id) } });
+    deleteLink: async (
+      _: undefined,
+      args: LinkArgs,
+      { prisma }: ServerContext
+    ) => {
+      const link = await prisma.link.findUnique({
+        where: { id: Number(args.id) },
+      });
 
       if (!link) {
         throw new Error("Link cannot be empty.");

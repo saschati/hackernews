@@ -5,7 +5,9 @@
   "main": "index.ts",
   "type": "module",
   "scripts": {
-    "server": "nodemon src/index.ts"
+    "server": "nodemon src/index.ts",
+    "eslint:fix": "eslint --fix --ext .js,.ts src",
+    "prettier:fix": "prettier --write \"**/*.+(js|ts)\""
   },
   "keywords": [],
   "author": "",
@@ -30,6 +32,11 @@
     "@types/lodash": "^4.14.191",
     "@types/node": "^18.11.18",
     "@types/ws": "^8.5.4",
+    "@typescript-eslint/eslint-plugin": "^5.48.2",
+    "@typescript-eslint/parser": "^5.48.2",
+    "eslint": "^8.32.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "graphql-tools": "^8.3.14",
     "nodemon": "^2.0.20",
     "prisma": "^4.8.1",

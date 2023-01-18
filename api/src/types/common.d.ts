@@ -1,9 +1,9 @@
-export interface PagginationQueryArgs { 
-    take: number;
-    skip: number;
+export interface PagginationQueryArgs {
+  take: number;
+  skip: number;
 }
 
 export enum Sort {
-    ASC = 'asc',
-    DESC = 'desc'
+  ASC = "asc",
+  DESC = "desc",
 }

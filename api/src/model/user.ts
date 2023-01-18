@@ -42,7 +42,11 @@ export const Resolver = {
       prisma.user.findUnique({ where: { id: parent.id } }).votes(),
   },
   Mutation: {
-    signup: async (_: undefined, args: SingUpArgs, { prisma }: ServerContext) => {
+    signup: async (
+      _: undefined,
+      args: SingUpArgs,
+      { prisma }: ServerContext
+    ) => {
       const password = await bcrypt.hash(args.password, 10);
       const user = await prisma.user.create({ data: { ...args, password } });
       const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
@@ -53,7 +57,9 @@ export const Resolver = {
       };
     },
     login: async (_: undefined, args: LoginArgs, { prisma }: ServerContext) => {
-      const user = await prisma.user.findUnique({ where: { email: args.email } });
+      const user = await prisma.user.findUnique({
+        where: { email: args.email },
+      });
       if (!user) {
         throw new Error("No such user found");
       }
