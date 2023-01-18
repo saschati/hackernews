@@ -23,9 +23,11 @@ docker-build:
 
 app-clear:
 	docker run --rm -v ${PWD}/api:/app -w /app alpine sh -c 'rm -f .ready'
+	docker run --rm -v ${PWD}/frontend:/app -w /app alpine sh -c 'rm -f .ready'
 
-app-init: api-init
+app-init: api-init frontend-init
 	docker run --rm -v ${PWD}/api:/app -w /app alpine sh -c 'touch .ready'
+	docker run --rm -v ${PWD}/frontend:/app -w /app alpine sh -c 'touch .ready'
 
 api-init: api-npm-install api-node-prisma-migration
 
@@ -43,3 +45,14 @@ api-node-prisma-migration:
 
 api-logs:
 	docker-compose logs --follow api-node
+
+frontend-init: frontend-yarn-install
+
+frontend-yarn-install:
+	docker-compose run --rm frontend-node-cli yarn install
+
+frontend-node-cli:
+	docker-compose run --rm frontend-node-cli $(cmd)
+
+frontend-logs:
+	docker-compose logs --follow frontend-node
