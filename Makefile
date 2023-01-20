@@ -46,6 +46,10 @@ api-node-prisma-migration:
 api-logs:
 	docker-compose logs --follow api-node
 
+api-fix:
+	docker-compose run --rm api-node-cli npm run eslint:fix
+	docker-compose run --rm api-node-cli npm run prettier:fix
+
 frontend-init: frontend-yarn-install
 
 frontend-yarn-install:
