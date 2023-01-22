@@ -1,0 +1,21 @@
+$mobile: 479px; // Початорк розширення для телефонів
+$middleTablet: 767px; // Початорк розширення для середніх дісплеїв планшетів
+$tablet: 991px; // Початорк розширення для великих дісплеїв планшетів
+
+@mixin mobile {
+    @media screen and (max-width: $mobile) {
+        @content;
+    }
+}
+
+@mixin middleTablet {
+    @media screen and (max-width: $middleTablet) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media screen and (max-width: $tablet) {
+        @content;
+    }
+}

@@ -1,0 +1,49 @@
+@use 'config' as c;
+@use 'helpers' as h;
+@use 'sass:list' as list;
+
+@function v($var, $default: false) {
+    @if $default {
+        @return if((str-index(h.to-string($default), '--')==0),
+            var(--#{$var}, var(--#{$default})),
+            var(--#{$var}, $default))
+    }
+
+    @return var(--#{$var});
+}
+
+@function size($key: 16px) {
+    $size: map-get(c.sizes(base, name), $key);
+
+    @if not $size {
+        @error 'Size not found.'
+    }
+
+    @return v(text-size-#{$size});
+}
+
+@function lh($value: 0) {
+    @if ($value ==0) {
+        @return v(line-height);
+    }
+
+    @if (str-index(h.to-string($value), 'px')) {
+        $value: h.to-number($value) - c.$lineHeight;
+    }
+
+    @else {
+        $value: h.to-unit($value);
+    }
+
+    @return calc(#{v(line-height)} + #{$value})
+}
+
+@function color($name) {
+    $colors: c.colors(name);
+
+    @if (h.in-list($colors, h.to-string($name))==false) {
+        @error "#{$name} is not a valid color. Expected one of #{$colors}.";
+    }
+
+    @return v(color-#{$name});
+}

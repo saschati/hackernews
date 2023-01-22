@@ -1,10 +1,11 @@
 import React from 'react';
+import { VechaiProvider, Button } from "@vechaiui/react";
 
 const App: React.FC = () => {
   return (
-    <>
-      test
-    </>
+    <VechaiProvider>
+      <Button>test</Button>
+    </VechaiProvider>
   );
 }
 

@@ -1,0 +1,98 @@
+@use 'sass:list' as list;
+@use 'src/styles/core/helpers' as h;
+
+// ============= COLORS =============
+$_colors: (
+    white: #FFFFFF,
+    crayola: #FB554C,
+    coral: #FDB3AF,
+    misty: #FDE9E3,
+    mango: #F4BB44,
+    sunny: #FFD6AD,
+    linen: #F8F4E7,
+    black: #000000,
+    stormy: #323334,
+    smoke: #4E4F51,
+    opal: #8DBAB5,
+    seafoam: #CCE0DE,
+    sage: #EEF1EC,
+    timber: #BBA28B,
+    ouster: #FFD6AD,
+    cloudy: #F5F4F3,
+);
+
+/**
+ * @param $by {hex, name} default false
+ */
+@function colors($by: false) {
+    @if ($by) {
+        $colors: ();
+
+        @each $name,
+        $color in $_colors {
+            $colors: list.append($colors, if($by ==hex, $color, h.to-string($name)), comma);
+        }
+
+        @return $colors;
+    }
+
+    @return $_colors;
+}
+
+// ============= COLORS =============
+
+// ============= TEXT SIZES =============
+$baseSize: 16px;
+$_sizes: (
+    // Heading & Title
+    (name: h1, size: 6rem, base: 96px),
+    (name: h2, size: 4rem, base: 64px),
+    (name: h3, size: 2.625rem, base: 42px),
+    (name: h4, size: 2rem, base: 32px),
+    (name: h5, size: 1.25rem, base: 20px),
+
+    // According to the situation
+    (name: logo, size: 1.5rem, base: 24px),
+    (name: author, size: 2.5rem, base: 40px),
+
+    // Body Text & Paragraph
+    (name: large, size: 1.125rem, base: 18px),
+    (name: regular, size: 1rem, base: 16px),
+    (name: small, size: 0.875rem, base: 14px),
+    (name: caption, size: 0.75rem, base: 12px),
+);
+
+@function sizes($key: false, $value: false) {
+    @if ($key) {
+        $sizes: ();
+
+        @each $link in $_sizes {
+            $bug: (map-get($link, $key): map-get($link, $value));
+
+            $sizes: map-merge($sizes, $bug);
+        }
+
+        @return $sizes;
+    }
+
+    @return $_sizes;
+}
+
+// ============= TEXT SIZES =============
+
+// ============= LINE HEIGHT =============
+$lineHeight: 24px;
+// ============= LINE HEIGHT =============
+
+// ============= FONTS =============
+$_fonts: (
+    title: ('Koulen', cursive),
+    paragraph: ('General Sans', sans-serif)
+    //....
+);
+
+@function fonts($name) {
+    @return map-get($_fonts, $name);
+}
+
+// ============= FONTS =============
