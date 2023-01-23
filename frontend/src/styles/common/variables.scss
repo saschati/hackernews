@@ -2,20 +2,18 @@
 @use 'src/styles/core/helpers' as h;
 
 :root {
-    // COLOR PALETTE
-    @each $name,
-    $color in c.colors() {
-        --color-#{h.to-string($name)}: #{$color};
-    }
+  // COLOR PALETTE
+  @each $name, $color in c.colors() {
+    --color-#{h.to-string($name)}: #{$color};
+  }
 
-    // TEXT SIZE
-    --text-size-base: #{c.$baseSize};
+  // TEXT SIZE
+  --text-size-base: #{c.$baseSize};
 
-    @each $name,
-    $size in c.sizes(name, size) {
-        --text-size-#{$name}: #{$size};
-    }
+  @each $name, $size in c.sizes(name, size) {
+    --text-size-#{$name}: #{$size};
+  }
 
-    // LINE HEIGHT
-    --line-height: #{c.$lineHeight};
+  // LINE HEIGHT
+  --line-height: #{c.$lineHeight};
 }

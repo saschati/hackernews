@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "server": "nodemon src/index.ts",
+    "eslint": "eslint --ext .js,.ts src",
     "eslint:fix": "eslint --fix --ext .js,.ts src",
     "prettier:fix": "prettier --write \"**/*.+(js|ts)\""
   },

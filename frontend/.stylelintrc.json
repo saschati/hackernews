@@ -1,0 +1,23 @@
+{
+  "extends": ["stylelint-config-standard-scss", "stylelint-prettier/recommended"],
+  "plugins": ["stylelint-prettier", "stylelint-scss", "stylelint-selector-bem-pattern"],
+  "rules": {
+    "scss/dollar-variable-pattern": null,
+    "prettier/prettier": true,
+    "selector-not-notation": null,
+    "scss/at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": ["tailwind"]
+      }
+    ],
+    "plugin/selector-bem-pattern": {
+      "componentName": "[AZ] +",
+      "componentSelectors": {
+        "initial": "^\\.{componentName}(?:-[az]+)?$",
+        "combined": "^\\.combined-{componentName}-[az ]+$"
+      },
+      "utilitySelectors": "^\\.util-[az]+$"
+    }
+  }
+}

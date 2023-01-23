@@ -1,21 +1,28 @@
 $mobile: 479px; // Початорк розширення для телефонів
-$middleTablet: 767px; // Початорк розширення для середніх дісплеїв планшетів
-$tablet: 991px; // Початорк розширення для великих дісплеїв планшетів
+$tablet: 767px; // Початорк розширення для середніх дісплеїв планшетів
+$laptop: 991px; // Початорк розширення для великих дісплеїв ноутбуків
+$desktop: 1199px; // Початорк розширення для дісплеїв десктопів
 
 @mixin mobile {
-    @media screen and (max-width: $mobile) {
-        @content;
-    }
-}
-
-@mixin middleTablet {
-    @media screen and (max-width: $middleTablet) {
-        @content;
-    }
+  @media screen and (max-width: $mobile) {
+    @content;
+  }
 }
 
 @mixin tablet {
-    @media screen and (max-width: $tablet) {
-        @content;
-    }
+  @media screen and (max-width: $tablet) {
+    @content;
+  }
+}
+
+@mixin laptop {
+  @media screen and (max-width: $laptop) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media screen and (max-width: $desktop) {
+    @content;
+  }
 }
