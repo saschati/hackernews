@@ -1,12 +1,1 @@
-@use 'src/styles/core/config' as c;
-
-@import 'https://fonts.googleapis.com/css2?family=Koulen&display=swap';
-@import 'https://api.fontshare.com/css?f[]=general-sans@200,300,400,500,600,700,1&display=swap';
-
-@font-face {
-  font-family: c.fonts(title);
-}
-
-@font-face {
-  font-family: c.fonts(paragraph);
-}
+@import 'https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap';

@@ -5,21 +5,7 @@
 // ============= COLORS =============
 $_colors: (
   white: #fff,
-  crayola: #fb554c,
-  coral: #fdb3af,
-  misty: #fde9e3,
-  mango: #f4bb44,
-  sunny: #ffd6ad,
-  linen: #f8f4e7,
   black: #000,
-  stormy: #323334,
-  smoke: #4e4f51,
-  opal: #8dbab5,
-  seafoam: #cce0de,
-  sage: #eef1ec,
-  timber: #bba28b,
-  ouster: #ffd6ad,
-  cloudy: #f5f4f3,
 );
 
 /**
@@ -44,43 +30,6 @@ $_colors: (
 // ============= TEXT SIZES =============
 $baseSize: 16px;
 $_sizes: (
-  // Heading & Title
-  (
-      name: h1,
-      size: 6rem,
-      base: 96px,
-    ),
-  (
-    name: h2,
-    size: 4rem,
-    base: 64px,
-  ),
-  (
-    name: h3,
-    size: 2.625rem,
-    base: 42px,
-  ),
-  (
-    name: h4,
-    size: 2rem,
-    base: 32px,
-  ),
-  (
-    name: h5,
-    size: 1.25rem,
-    base: 20px,
-  ),
-  // According to the situation
-  (
-      name: logo,
-      size: 1.5rem,
-      base: 24px,
-    ),
-  (
-    name: author,
-    size: 2.5rem,
-    base: 40px,
-  ),
   // Body Text & Paragraph
   (
       name: large,
@@ -130,13 +79,9 @@ $lineHeight: 24px;
 
 // ============= FONTS =============
 $_fonts: (
-  title: (
-    'Koulen',
-    'cursive',
-  ),
-  paragraph: (
-    'General Sans',
-    'sans-serif',
+  syne: (
+    'Inconsolata',
+    monospace,
   ),
   // ....,,,,,,,,
 );

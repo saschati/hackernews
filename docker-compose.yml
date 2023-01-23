@@ -5,7 +5,7 @@ x-env-api: &api-env-variables
     APP_SECRET: 'secret'
 
 x-env-front: &front-env-variables
-    APP_URL: http://localhost:8000
+    APP_URL: http://localhost
 
 services:
 
