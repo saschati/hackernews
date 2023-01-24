@@ -5,7 +5,9 @@ x-env-api: &api-env-variables
     APP_SECRET: 'secret'
 
 x-env-front: &front-env-variables
-    APP_URL: http://localhost
+    REACT_APP_APP_URL: http://localhost
+    REACT_APP_API_URL: http://api.localhost/graphql
+    REACT_APP_API_WS_URL: http://api.localhost/graphql/ws
 
 services:
 
@@ -95,6 +97,7 @@ services:
            context: frontend/docker/development/nginx
        depends_on:
            - frontend-node
+           - api
        networks:
            - traefik-public
            - default           
@@ -115,6 +118,7 @@ services:
        environment:
            <<: *front-env-variables
            WDS_SOCKET_PORT: 0
+           DISABLE_ESLINT_PLUGIN: "true"
        volumes:
            - ./frontend:/app
        command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && yarn start"

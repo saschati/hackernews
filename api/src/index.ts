@@ -5,7 +5,6 @@ import { WebSocketServer } from "ws";
 import { useServer } from "graphql-ws/lib/use/ws";
 import { expressMiddleware } from "@apollo/server/express4";
 import bodyParser from "body-parser";
-import cors from "cors";
 import express from "express";
 import { ApolloServer } from "@apollo/server";
 import { PrismaClient } from "@prisma/client";
@@ -64,7 +63,6 @@ await server.start();
 
 app.use(
   "/graphql",
-  cors<cors.CorsRequest>(),
   bodyParser.json({ limit: "50mb" }),
   expressMiddleware<ServerContext>(server, {
     context: async ({ req }) => ({

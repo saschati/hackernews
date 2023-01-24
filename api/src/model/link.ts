@@ -52,6 +52,7 @@ export const Schema = gql`
     id: ID!
     description: String!
     url: String!
+    createdAt: String!
     postedBy: User
     votes: [Vote!]!
   }
@@ -114,6 +115,7 @@ export const Resolver = {
     },
     votes: (parent: Link, _: undefined, { prisma }: ServerContext) =>
       prisma.link.findUnique({ where: { id: parent.id } }).votes(),
+    createdAt: (parent: Link) => new Date(parent.createdAt).toISOString(),
   },
   Mutation: {
     postLink: async (

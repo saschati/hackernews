@@ -1,13 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './styles/index.scss'
-import App from 'hoc/App'
+import App from './hoc/App'
 import reportWebVitals from 'utils/reportWebVitals'
+import Layout from 'hoc/Layout/Main/Layout'
+import { RouterList } from 'components/Domain/Router'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
-    <App />
+    <App>
+      <Layout>
+        <RouterList />
+      </Layout>
+    </App>
   </React.StrictMode>
 )
 

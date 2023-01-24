@@ -63,7 +63,7 @@ export const Resolver = {
         throw new Error(`Already voted for link: ${args.linkId}`);
       }
 
-      const newVote = prisma.vote.create({
+      const newVote = await prisma.vote.create({
         data: {
           user: { connect: { id: userId } },
           link: { connect: { id: Number(args.linkId) } },
