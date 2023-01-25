@@ -17,6 +17,16 @@ const LINKS_QUERY = gql`
         createdAt
         url
         description
+        postedBy {
+          id
+          name
+        }
+        votes {
+          id
+          user {
+            id
+          }
+        }
       }
     }
   }
@@ -27,8 +37,8 @@ const LinkList: React.FC = (): JSX.Element => {
 
   return (
     <div>
-      {data?.links.records.map((link) => (
-        <Link key={link.id} link={link} />
+      {data?.links.records.map((link, index) => (
+        <Link key={link.id} link={link} index={index} />
       ))}
     </div>
   )

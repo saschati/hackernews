@@ -1,6 +1,8 @@
-import React, { ChangeEventHandler, useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Link as LinkModel } from 'types/model/link'
 import { useMutation, gql } from '@apollo/client'
+import { useNavigate } from 'react-router-dom'
+import Path from 'config/path'
 
 type CreateLinkForm = Pick<LinkModel, 'description' | 'url'>
 
@@ -20,6 +22,8 @@ const CREATE_LINK_MUTATION = gql`
 `
 
 const CreateLink: React.FC = (): JSX.Element => {
+  const navigate = useNavigate()
+
   const [formState, setFormState] = useState<CreateLinkForm>({
     description: '',
     url: '',
@@ -30,6 +34,7 @@ const CreateLink: React.FC = (): JSX.Element => {
       description: formState.description,
       url: formState.url,
     },
+    onCompleted: () => navigate(Path.HOME),
   })
 
   const handlerSubmit = useCallback<React.FormEventHandler>(
@@ -41,7 +46,7 @@ const CreateLink: React.FC = (): JSX.Element => {
     [createLink]
   )
 
-  const handlerDescriptionChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
+  const handlerDescriptionChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>(
     (e) => {
       setFormState({
         ...formState,
@@ -51,7 +56,7 @@ const CreateLink: React.FC = (): JSX.Element => {
     [formState]
   )
 
-  const handlerUrl = useCallback<ChangeEventHandler<HTMLInputElement>>(
+  const handlerUrl = useCallback<React.ChangeEventHandler<HTMLInputElement>>(
     (e) => {
       setFormState({
         ...formState,
