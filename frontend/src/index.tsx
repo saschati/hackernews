@@ -5,14 +5,17 @@ import App from './hoc/App'
 import reportWebVitals from 'utils/reportWebVitals'
 import Layout from 'hoc/Layout/Main/Layout'
 import { RouterList } from 'components/Domain/Router'
+import { AuthProvider } from 'hoc/Auth'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
     <App>
-      <Layout>
-        <RouterList />
-      </Layout>
+      <AuthProvider>
+        <Layout>
+          <RouterList />
+        </Layout>
+      </AuthProvider>
     </App>
   </React.StrictMode>
 )

@@ -1,4 +1,7 @@
-export const timeDifference = (current: number, previous: number): string => {
+export const timeDifference = (currentDate: Date, previousDate: Date): string => {
+  const current = currentDate.getTime()
+  const previous = previousDate.getTime()
+
   const milliSecondsPerMinute = 60 * 1000
   const milliSecondsPerHour = milliSecondsPerMinute * 60
   const milliSecondsPerDay = milliSecondsPerHour * 24
@@ -26,8 +29,6 @@ export const timeDifference = (current: number, previous: number): string => {
   }
 }
 
-export const timeDifferenceForDate = (date: string) => {
-  const now = new Date().getTime()
-  const updated = new Date(date).getTime()
-  return timeDifference(now, updated)
+export const timeDifferenceForDate = (date: string): string => {
+  return timeDifference(new Date(), new Date(date))
 }

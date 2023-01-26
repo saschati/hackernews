@@ -3,6 +3,11 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { ServerContext } from "../types/server";
 import { User } from "@prisma/client";
+import { getUserId } from "../utils/auth";
+
+interface UserArgs {
+  token?: string;
+}
 
 interface LoginArgs {
   email: string;
@@ -14,6 +19,10 @@ interface SingUpArgs extends LoginArgs {
 }
 
 export const Schema = gql`
+  type Query {
+    user(token: String): User!
+  }
+
   type Mutation {
     signup(email: String!, password: String!, name: String!): AuthPayload
     login(email: String!, password: String!): AuthPayload
@@ -34,6 +43,29 @@ export const Schema = gql`
 `;
 
 export const Resolver = {
+  Query: {
+    user: async (
+      _: undefined,
+      args: UserArgs,
+      { prisma, userId }: ServerContext
+    ) => {
+      if (!userId && !args.token) {
+        throw new Error("The user is not authorized.");
+      }
+
+      const id = args.token ? getUserId(undefined, args.token) : Number(userId);
+
+      const user = await prisma.user.findUnique({
+        where: { id },
+      });
+
+      if (!user) {
+        throw new Error("User is not available.");
+      }
+
+      return user;
+    },
+  },
   User: {
     links: (parent: User, _: undefined, { prisma }: ServerContext) => {
       return prisma.user.findUnique({ where: { id: parent.id } }).links();
