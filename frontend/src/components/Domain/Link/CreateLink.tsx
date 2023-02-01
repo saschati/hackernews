@@ -1,25 +1,16 @@
 import React, { useCallback, useState } from 'react'
 import { Link as LinkModel } from 'types/model/link'
-import { useMutation, gql } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import { useNavigate } from 'react-router-dom'
 import Path from 'config/path'
+import {
+  CreateLinkMutationQQL,
+  CREATE_LINK_MUTATION_QQL,
+  LinkQueryQQL,
+  LINKS_QUERY_QQL,
+} from 'services/ggl/link'
 
 type CreateLinkForm = Pick<LinkModel, 'description' | 'url'>
-
-interface PostLinkData {
-  post: LinkModel
-}
-
-const CREATE_LINK_MUTATION = gql`
-  mutation PostMutation($description: String!, $url: String!) {
-    postLink(description: $description, url: $url) {
-      id
-      createdAt
-      url
-      description
-    }
-  }
-`
 
 const CreateLink: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
@@ -29,21 +20,35 @@ const CreateLink: React.FC = (): JSX.Element => {
     url: '',
   })
 
-  const [createLink] = useMutation<PostLinkData>(CREATE_LINK_MUTATION, {
-    variables: {
-      description: formState.description,
-      url: formState.url,
-    },
-    onCompleted: () => navigate(Path.HOME),
-  })
+  const [createLink] = useMutation<CreateLinkMutationQQL>(CREATE_LINK_MUTATION_QQL)
 
   const handlerSubmit = useCallback<React.FormEventHandler>(
     (e) => {
       e.preventDefault()
 
-      createLink()
+      createLink({
+        variables: {
+          description: formState.description,
+          url: formState.url,
+        },
+        update: (cache, { data: postData }) => {
+          const data = cache.readQuery<LinkQueryQQL>({
+            query: LINKS_QUERY_QQL,
+          })
+
+          cache.writeQuery({
+            query: LINKS_QUERY_QQL,
+            data: {
+              links: {
+                records: [...(data?.links.records || []), postData?.postLink],
+              },
+            },
+          })
+        },
+        onCompleted: () => navigate(Path.HOME),
+      })
     },
-    [createLink]
+    [createLink, formState]
   )
 
   const handlerDescriptionChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>(

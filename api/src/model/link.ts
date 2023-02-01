@@ -83,11 +83,14 @@ export const Resolver = {
         ],
       };
       const where = args.filter ? condition : {};
+      const take = paggin?.take || 3;
+      const skip =
+        paggin?.skip && paggin.skip > 0 ? (paggin.skip - 1) * take : 0;
 
       const records = await prisma.link.findMany({
         where,
-        skip: paggin?.skip || 0,
-        take: paggin?.take || 3,
+        take,
+        skip,
         orderBy,
       });
 

@@ -1,24 +1,11 @@
-import { gql, useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import LocalStorage from 'app/storage/local'
 import { AUTH_TOKEN } from 'config/constants'
 import useAuth from 'hooks/useAuth'
 import useStorage, { StorageType } from 'hooks/useStorage'
 import React, { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Auth } from 'types/model/user'
-
-type AuthToken = Pick<Auth, 'token'>
-interface LoginData {
-  login: AuthToken
-}
-
-const LOGIN_MUTATION = gql`
-  mutation LoginMutation($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      token
-    }
-  }
-`
+import { LoginMutationQQL, LOGIN_MUTATION_QQL } from 'services/ggl/auth'
 
 const Login: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
@@ -29,17 +16,7 @@ const Login: React.FC = (): JSX.Element => {
     password: '',
   })
 
-  const [login] = useMutation<LoginData>(LOGIN_MUTATION, {
-    variables: {
-      email: formState.email,
-      password: formState.password,
-    },
-    onCompleted: ({ login }) => {
-      storage.set(AUTH_TOKEN, login.token)
-      getUser()
-      navigate('/')
-    },
-  })
+  const [login] = useMutation<LoginMutationQQL>(LOGIN_MUTATION_QQL)
 
   const handlerEmail = useCallback<React.ChangeEventHandler<HTMLInputElement>>(
     (e) => {
@@ -62,7 +39,18 @@ const Login: React.FC = (): JSX.Element => {
   )
 
   const handleSubmit = useCallback<React.MouseEventHandler<HTMLButtonElement>>(
-    () => login(),
+    () =>
+      login({
+        variables: {
+          email: formState.email,
+          password: formState.password,
+        },
+        onCompleted: ({ login }) => {
+          storage.set(AUTH_TOKEN, login.token)
+          getUser()
+          navigate('/')
+        },
+      }),
     [login]
   )
 

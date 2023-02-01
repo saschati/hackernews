@@ -1,29 +1,46 @@
-import { Signup, Login } from 'components/Domain/Auth'
-import { CreateLink, LinkList } from 'components/Domain/Link'
+import { LoginController, SignupController } from 'controllers/Auth'
+import { CreateLinkController, LinksController } from 'controllers/Link'
+import HomeController from 'controllers/Home'
 import React from 'react'
 import Path from './path'
+
+export enum RouterAccess {
+  ALL,
+  AUTH,
+  GUEST,
+}
 
 export interface Route {
   path: Path
   Component: React.ComponentType
+  access: RouterAccess
 }
 
 const routes: Array<Route> = [
   {
     path: Path.HOME,
-    Component: LinkList,
+    Component: HomeController,
+    access: RouterAccess.ALL,
   },
   {
     path: Path.LINK_CREATE_LINK,
-    Component: CreateLink,
+    Component: CreateLinkController,
+    access: RouterAccess.AUTH,
   },
   {
     path: Path.AUTH_LOGIN,
-    Component: Login,
+    Component: LoginController,
+    access: RouterAccess.GUEST,
   },
   {
     path: Path.AUTH_SIGNUP,
-    Component: Signup,
+    Component: SignupController,
+    access: RouterAccess.GUEST,
+  },
+  {
+    path: Path.LINKS,
+    Component: LinksController,
+    access: RouterAccess.ALL,
   },
 ]
 

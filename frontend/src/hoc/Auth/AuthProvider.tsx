@@ -1,30 +1,18 @@
-import { gql, useLazyQuery } from '@apollo/client'
+import { useLazyQuery } from '@apollo/client'
 import { UserManager } from 'app/model/user/manager'
 import LocalStorage from 'app/storage/local'
 import { AUTH_TOKEN } from 'config/constants'
 import useStorage, { StorageType } from 'hooks/useStorage'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { UserQeuryQQL, USER_QUERY_QQL } from 'services/ggl/user'
 import { User } from 'types/model/user'
 import AuthContext from './AuthContext'
 
-interface UserData {
-  user: User
-}
-
-const USER_QUERY = gql`
-  query User($token: String) {
-    user(token: $token) {
-      id
-      email
-      name
-    }
-  }
-`
 const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }): JSX.Element => {
   const [user, setUser] = useState<UserManager<User>>(() => new UserManager<User>(null))
   const storage = useStorage<LocalStorage>(StorageType.LOCAL)
 
-  const [getUser, { loading, error }] = useLazyQuery<UserData>(USER_QUERY, {
+  const [getUser, { loading, error }] = useLazyQuery<UserQeuryQQL>(USER_QUERY_QQL, {
     onCompleted: (data) => {
       setUser(new UserManager(data?.user || null))
     },

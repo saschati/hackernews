@@ -1,8 +1,11 @@
 import Path from 'config/path'
+import useAuth from 'hooks/useAuth'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Header: React.FC = (): JSX.Element => {
+  const { user, logout } = useAuth()
+
   return (
     <div className="flex pa1 justify-between nowrap orange">
       <div className="flex flex-fixed black">
@@ -17,13 +20,21 @@ const Header: React.FC = (): JSX.Element => {
           submit
         </Link>
         <div className="ml1">|</div>
-        <Link to={Path.AUTH_LOGIN} className="ml1 no-underline black">
-          login
-        </Link>
-        <div className="ml1">|</div>
-        <Link to={Path.AUTH_SIGNUP} className="ml1 no-underline black">
-          signup
-        </Link>
+        {!user.isGuest() ? (
+          <div className="cursor-pointer" onClick={logout}>
+            logout
+          </div>
+        ) : (
+          <>
+            <Link to={Path.AUTH_LOGIN} className="ml1 no-underline black">
+              login
+            </Link>
+            <div className="ml1">|</div>
+            <Link to={Path.AUTH_SIGNUP} className="ml1 no-underline black">
+              signup
+            </Link>
+          </>
+        )}
       </div>
     </div>
   )

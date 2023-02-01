@@ -7,7 +7,7 @@ x-env-api: &api-env-variables
 x-env-front: &front-env-variables
     REACT_APP_APP_URL: http://localhost
     REACT_APP_API_URL: http://api.localhost/graphql
-    REACT_APP_API_WS_URL: http://api.localhost/graphql/ws
+    REACT_APP_API_WS_URL: ws://api.localhost/graphql/ws
 
 services:
 

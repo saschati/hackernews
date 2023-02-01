@@ -1,24 +1,11 @@
-import { gql, useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import LocalStorage from 'app/storage/local'
 import { AUTH_TOKEN } from 'config/constants'
 import useAuth from 'hooks/useAuth'
 import useStorage, { StorageType } from 'hooks/useStorage'
 import React, { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Auth } from 'types/model/user'
-
-type AuthToken = Pick<Auth, 'token'>
-interface SignupData {
-  signup: AuthToken
-}
-
-const SIGNUP_MUTATION = gql`
-  mutation SignupMutation($email: String!, $password: String!, $name: String!) {
-    signup(email: $email, password: $password, name: $name) {
-      token
-    }
-  }
-`
+import { SignupMutationQQL, SIGNUP_MUTATION_QQL } from 'services/ggl/auth'
 
 const Signup: React.FC = (): JSX.Element => {
   const storage = useStorage<LocalStorage>(StorageType.LOCAL)
@@ -30,18 +17,7 @@ const Signup: React.FC = (): JSX.Element => {
     name: '',
   })
 
-  const [signup] = useMutation<SignupData>(SIGNUP_MUTATION, {
-    variables: {
-      name: formState.name,
-      email: formState.email,
-      password: formState.password,
-    },
-    onCompleted: ({ signup }) => {
-      storage.set(AUTH_TOKEN, signup.token)
-      getUser()
-      navigate('/')
-    },
-  })
+  const [signup] = useMutation<SignupMutationQQL>(SIGNUP_MUTATION_QQL)
 
   const handlerName = useCallback<React.ChangeEventHandler<HTMLInputElement>>(
     (e) => {
@@ -74,8 +50,20 @@ const Signup: React.FC = (): JSX.Element => {
   )
 
   const handleSubmit = useCallback<React.MouseEventHandler<HTMLButtonElement>>(
-    () => signup(),
-    [signup]
+    () =>
+      signup({
+        variables: {
+          name: formState.name,
+          email: formState.email,
+          password: formState.password,
+        },
+        onCompleted: ({ signup }) => {
+          storage.set(AUTH_TOKEN, signup.token)
+          getUser()
+          navigate('/')
+        },
+      }),
+    [signup, formState]
   )
 
   return (
