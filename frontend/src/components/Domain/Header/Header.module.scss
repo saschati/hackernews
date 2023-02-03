@@ -1,3 +1,21 @@
+@use 'src/styles/core/mixin' as m;
+@use 'src/styles/core/functions' as f;
+
 .header {
-  background-color: white;
+  @include m.flex($ai: center, $jc: space-between);
+
+  height: 100%;
+  padding-inline: 18px;
+
+  @include m.text($w: 500);
+
+  box-shadow: 0 2px 1px f.color(vivid-cyan);
+
+  &__logo {
+    @include m.text($w: 700, $size: f.size(26px));
+  }
+
+  &__navigate {
+    @include m.flex($ai: center, $gap: 16px);
+  }
 }

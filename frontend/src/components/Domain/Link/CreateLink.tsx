@@ -9,6 +9,7 @@ import {
   LinkQueryQQL,
   LINKS_QUERY_QQL,
 } from 'services/ggl/link'
+import { LINKS_PER_PAGE } from 'config/constants'
 
 type CreateLinkForm = Pick<LinkModel, 'description' | 'url'>
 
@@ -32,8 +33,15 @@ const CreateLink: React.FC = (): JSX.Element => {
           url: formState.url,
         },
         update: (cache, { data: postData }) => {
+          const variables = {
+            take: LINKS_PER_PAGE,
+            skip: 0,
+            orderBy: { createdAt: 'desc' },
+          }
+
           const data = cache.readQuery<LinkQueryQQL>({
             query: LINKS_QUERY_QQL,
+            variables,
           })
 
           cache.writeQuery({
@@ -43,6 +51,7 @@ const CreateLink: React.FC = (): JSX.Element => {
                 records: [...(data?.links.records || []), postData?.postLink],
               },
             },
+            variables,
           })
         },
         onCompleted: () => navigate(Path.HOME),

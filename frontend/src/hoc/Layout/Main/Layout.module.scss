@@ -1,0 +1,28 @@
+@use 'src/styles/core/functions' as f;
+
+.layout {
+  --_header-height: 50px;
+  --_footer-height: 50px;
+
+  display: grid;
+  grid-template:
+    ' .    header               .' f.v(_header-height)
+    ' .    content              .' minmax(
+      calc(f.v(window-height, 100vh) - f.v(_header-height) - f.v(_footer-height)),
+      1fr
+    )
+    ' .    footer               .' f.v(_footer-height)
+    / auto minmax(auto, 1200px) auto;
+
+  &__header {
+    grid-area: header;
+  }
+
+  &__content {
+    grid-area: content;
+  }
+
+  &__footer {
+    grid-area: footer;
+  }
+}

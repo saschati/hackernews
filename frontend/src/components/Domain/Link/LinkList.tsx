@@ -9,15 +9,22 @@ import {
 } from 'services/ggl/link'
 import useVoteMutation from 'hooks/domain/link/useVoteMutatuon'
 import { OrderBy } from 'types/model/link'
+import { LINKS_PER_PAGE } from 'config/constants'
 
 export type LinkListProps = {
   take?: number
-  skip?: number
+  page?: number
   orderBy?: OrderBy
 }
 
-const LinkList: React.FC<LinkListProps> = ({ take, skip, orderBy }): JSX.Element => {
+const LinkList: React.FC<LinkListProps> = ({
+  take = LINKS_PER_PAGE,
+  page,
+  orderBy,
+}): JSX.Element => {
   const variables = useMemo(() => {
+    const skip = page ? (page - 1) * take : 0
+
     return {
       paggin: {
         take,
@@ -25,13 +32,13 @@ const LinkList: React.FC<LinkListProps> = ({ take, skip, orderBy }): JSX.Element
       },
       orderBy,
     }
-  }, [take, skip, orderBy])
+  }, [take, page, orderBy])
 
   const { data, subscribeToMore } = useQuery<LinkQueryQQL>(LINKS_QUERY_QQL, {
     variables,
   })
 
-  const handlerLinkVote = useVoteMutation()
+  const handlerLinkVote = useVoteMutation(variables)
 
   subscribeToMore<NewLinksSubscriptionQQL>({
     document: NEW_LINKS_SUBSCRIPTION_QQL,

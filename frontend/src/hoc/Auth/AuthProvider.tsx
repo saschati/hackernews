@@ -1,6 +1,5 @@
 import { useLazyQuery } from '@apollo/client'
 import { UserManager } from 'app/model/user/manager'
-import LocalStorage from 'app/storage/local'
 import { AUTH_TOKEN } from 'config/constants'
 import useStorage, { StorageType } from 'hooks/useStorage'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
@@ -10,7 +9,7 @@ import AuthContext from './AuthContext'
 
 const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }): JSX.Element => {
   const [user, setUser] = useState<UserManager<User>>(() => new UserManager<User>(null))
-  const storage = useStorage<LocalStorage>(StorageType.LOCAL)
+  const storage = useStorage(StorageType.LOCAL)
 
   const [getUser, { loading, error }] = useLazyQuery<UserQeuryQQL>(USER_QUERY_QQL, {
     onCompleted: (data) => {

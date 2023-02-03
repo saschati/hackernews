@@ -1,41 +1,42 @@
 import Path from 'config/path'
 import useAuth from 'hooks/useAuth'
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useMemo } from 'react'
+import { generatePath, Link as RouterLink } from 'react-router-dom'
+import { Link } from '@vechaiui/react'
+import styles from './Header.module.scss'
+import Profile from './Profile'
 
 const Header: React.FC = (): JSX.Element => {
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
+
+  const navigateItems = useMemo(() => {
+    return [
+      {
+        href: generatePath(Path.LINKS, { page: null }),
+        label: 'links',
+      },
+    ]
+  }, [])
 
   return (
-    <div className="flex pa1 justify-between nowrap orange">
-      <div className="flex flex-fixed black">
-        <Link to={Path.HOME} className="no-underline black">
-          <div className="fw7 mr1">Hacker News</div>
-        </Link>
-        <Link to={Path.HOME} className="ml1 no-underline black">
-          new
-        </Link>
-        <div className="ml1">|</div>
-        <Link to={Path.LINK_CREATE_LINK} className="ml1 no-underline black">
-          submit
-        </Link>
-        <div className="ml1">|</div>
-        {!user.isGuest() ? (
-          <div className="cursor-pointer" onClick={logout}>
-            logout
-          </div>
-        ) : (
-          <>
-            <Link to={Path.AUTH_LOGIN} className="ml1 no-underline black">
-              login
-            </Link>
-            <div className="ml1">|</div>
-            <Link to={Path.AUTH_SIGNUP} className="ml1 no-underline black">
-              signup
-            </Link>
-          </>
-        )}
+    <div className={styles.header}>
+      <div className={styles.header__logo}>
+        <RouterLink to={Path.HOME}>Hacker News</RouterLink>
       </div>
+      <div className={styles.header__navigate}>
+        {navigateItems.map((item) => (
+          <Link as="div" className="text-black" key={item.href}>
+            <RouterLink to={item.href}>{item.label}</RouterLink>
+          </Link>
+        ))}
+      </div>
+      {!user.isGuest() ? (
+        <Profile />
+      ) : (
+        <Link as="div" className="text-black hover:text-blue-500">
+          <RouterLink to={Path.AUTH_LOGIN}>login</RouterLink>
+        </Link>
+      )}
     </div>
   )
 }

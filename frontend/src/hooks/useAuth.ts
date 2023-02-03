@@ -1,5 +1,4 @@
-import { AuthContextValue } from 'hoc/Auth/AuthContext'
-import { AuthContext } from 'hoc/Auth'
+import { AuthContext, AuthContextValue } from 'hoc/Auth'
 import { useContext } from 'react'
 
 const useAuth = (): AuthContextValue => {

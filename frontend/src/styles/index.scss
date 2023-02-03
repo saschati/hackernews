@@ -1,2 +1,11 @@
 @use 'common/bootstrap' as _common;
 @use 'tailwind/bootstrap' as _tailwind;
+
+@use 'core/config.scss' as c;
+@use 'core/functions.scss' as f;
+
+body {
+  font-family: c.fonts(syne);
+  font-size: f.size();
+  line-height: f.lh();
+}

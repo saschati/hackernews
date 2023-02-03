@@ -8,7 +8,7 @@ import {
   VOTE_MUTATION_QQL,
 } from 'services/ggl/link'
 
-const useVoteMutation = (): LinkProps['onVote'] => {
+const useVoteMutation = (variables = {}): LinkProps['onVote'] => {
   const [vote] = useMutation<VoteMutationQQL>(VOTE_MUTATION_QQL)
 
   return useCallback<LinkProps['onVote']>(
@@ -21,6 +21,7 @@ const useVoteMutation = (): LinkProps['onVote'] => {
           const vote = data?.vote
           const dataCache = cache.readQuery<LinkQueryQQL>({
             query: LINKS_QUERY_QQL,
+            variables,
           })
 
           const updatedLinks = dataCache?.links.records.map((recordlink) => {
@@ -41,10 +42,11 @@ const useVoteMutation = (): LinkProps['onVote'] => {
                 records: updatedLinks,
               },
             },
+            variables,
           })
         },
       }),
-    [vote]
+    [vote, variables]
   )
 }
 

@@ -95,7 +95,7 @@
   }
 }
 
-@mixin flex($flow: false, $jc: false, $ai: false, $ac: false) {
+@mixin flex($flow: false, $jc: false, $ai: false, $ac: false, $gap: false) {
   display: flex;
 
   @if $flow == center {
@@ -119,6 +119,10 @@
 
   @if $ac {
     align-content: $ac;
+  }
+
+  @if $gap {
+    gap: $gap;
   }
 }
 

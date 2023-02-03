@@ -1,14 +1,29 @@
 import LocalStorage from 'app/storage/local'
-import Storage from 'types/app/storage'
+import SessionStorage from 'app/storage/session'
 
 export enum StorageType {
   LOCAL,
+  SESSION,
 }
 
-const storages = new Map<StorageType, Storage>([[StorageType.LOCAL, new LocalStorage()]])
+type StorageMap = {
+  [StorageType.LOCAL]: LocalStorage
+  [StorageType.SESSION]: SessionStorage
+}
 
-const useStorage = <T extends Storage>(type: StorageType): T => {
-  return storages.get(type) as T
+const storages = new Map<StorageType, StorageMap[StorageType]>([
+  [StorageType.LOCAL, new LocalStorage()],
+  [StorageType.SESSION, new SessionStorage()],
+])
+
+const useStorage = <T extends StorageType>(type: T): StorageMap[T] => {
+  const storage = storages.get(type)
+
+  if (!storage) {
+    throw new Error(`Storage`)
+  }
+
+  return storage
 }
 
 export default useStorage

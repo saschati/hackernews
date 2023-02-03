@@ -9,11 +9,10 @@ import env from 'config/env'
 import { BrowserRouter } from 'react-router-dom'
 import { AUTH_TOKEN } from 'config/constants'
 import useStorage, { StorageType } from 'hooks/useStorage'
-import LocalStorage from 'app/storage/local'
 import { getMainDefinition } from '@apollo/client/utilities'
 
 const App: React.FC<React.PropsWithChildren> = ({ children }): JSX.Element => {
-  const storage = useStorage<LocalStorage>(StorageType.LOCAL)
+  const storage = useStorage(StorageType.LOCAL)
 
   const [client] = useMemo(() => {
     const token = storage.get<string, null>(AUTH_TOKEN)

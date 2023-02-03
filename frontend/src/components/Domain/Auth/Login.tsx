@@ -1,5 +1,4 @@
 import { useMutation } from '@apollo/client'
-import LocalStorage from 'app/storage/local'
 import { AUTH_TOKEN } from 'config/constants'
 import useAuth from 'hooks/useAuth'
 import useStorage, { StorageType } from 'hooks/useStorage'
@@ -9,7 +8,7 @@ import { LoginMutationQQL, LOGIN_MUTATION_QQL } from 'services/ggl/auth'
 
 const Login: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
-  const storage = useStorage<LocalStorage>(StorageType.LOCAL)
+  const storage = useStorage(StorageType.LOCAL)
   const { getUser } = useAuth()
   const [formState, setFormState] = useState({
     email: '',
@@ -51,7 +50,7 @@ const Login: React.FC = (): JSX.Element => {
           navigate('/')
         },
       }),
-    [login]
+    [login, formState]
   )
 
   return (

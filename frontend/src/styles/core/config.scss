@@ -6,6 +6,11 @@
 $_colors: (
   white: #fff,
   black: #000,
+  vivid-cyan: #12f3ff,
+  vivid-orange: #ffc22e,
+  light-cyan: #3cffb1,
+  light-blue: #5486ff,
+  light-red: #ff7d61,
 );
 
 /**
@@ -30,6 +35,12 @@ $_colors: (
 // ============= TEXT SIZES =============
 $baseSize: 16px;
 $_sizes: (
+  // Logo & Title
+  (
+      name: logo,
+      size: 1.625rem,
+      base: 26px,
+    ),
   // Body Text & Paragraph
   (
       name: large,

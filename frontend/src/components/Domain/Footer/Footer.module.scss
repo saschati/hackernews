@@ -1,0 +1,13 @@
+@use 'src/styles/core/mixin' as m;
+@use 'src/styles/core/functions' as f;
+
+.footer {
+  @include m.flex(center);
+
+  height: 100%;
+  padding-inline: 18px;
+
+  @include m.text($w: 500);
+
+  box-shadow: 0 -2px 2px f.color(vivid-cyan);
+}
