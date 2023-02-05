@@ -1,13 +1,16 @@
 import Path from 'config/path'
 import useAuth from 'hooks/useAuth'
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { cx, Divider, Avatar } from '@vechaiui/react'
 import { useNavigate } from 'react-router-dom'
+import { LogoutConfirmModal } from '../Profile/Logout'
 
-const Profile: React.FC = (): JSX.Element => {
+const HeaderProfile: React.FC = (): JSX.Element => {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+
+  const [isLogout, setIsLogout] = useState(false)
 
   const items = useMemo(() => {
     return [
@@ -17,6 +20,9 @@ const Profile: React.FC = (): JSX.Element => {
       },
     ]
   }, [])
+
+  const handlerOpen = useCallback(() => setIsLogout(true), [])
+  const handlerCancel = useCallback(() => setIsLogout(false), [])
 
   return (
     <div>
@@ -72,7 +78,7 @@ const Profile: React.FC = (): JSX.Element => {
                   <button
                     disabled={disabled}
                     aria-disabled={disabled}
-                    onClick={logout}
+                    onClick={handlerOpen}
                     className={cx(
                       'flex rounded items-center w-full px-3 h-8 flex-shrink-0 text-sm text-left cursor-pointer focus:outline-none',
                       active && 'text-blue-500',
@@ -87,8 +93,9 @@ const Profile: React.FC = (): JSX.Element => {
           </Menu.Items>
         </Transition>
       </Menu>
+      <LogoutConfirmModal isOpen={isLogout} onLogout={logout} onCancel={handlerCancel} />
     </div>
   )
 }
 
-export default Profile
+export default HeaderProfile

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { Link as LinkModel } from 'types/model/link'
 import { useMutation } from '@apollo/client'
 import { useNavigate } from 'react-router-dom'
@@ -10,27 +10,34 @@ import {
   LINKS_QUERY_QQL,
 } from 'services/ggl/link'
 import { LINKS_PER_PAGE } from 'config/constants'
+import { Form, Formik } from 'formik'
+import Yup from 'utils/yup'
+import { FormikButton, FormikInput } from '../Formik'
+import styles from './CreateLink.module.scss'
 
-type CreateLinkForm = Pick<LinkModel, 'description' | 'url'>
+type CreateLinkValues = Pick<LinkModel, 'description' | 'url'>
+
+const validateSchema = Yup.object().shape({
+  description: Yup.string().required(),
+  url: Yup.string().required().url(),
+})
+
+const initialValues: CreateLinkValues = {
+  description: '',
+  url: '',
+}
 
 const CreateLink: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
 
-  const [formState, setFormState] = useState<CreateLinkForm>({
-    description: '',
-    url: '',
-  })
-
   const [createLink] = useMutation<CreateLinkMutationQQL>(CREATE_LINK_MUTATION_QQL)
 
-  const handlerSubmit = useCallback<React.FormEventHandler>(
-    (e) => {
-      e.preventDefault()
-
+  const handlerSubmit = useCallback(
+    (values: CreateLinkValues) => {
       createLink({
         variables: {
-          description: formState.description,
-          url: formState.url,
+          description: values.description,
+          url: values.url,
         },
         update: (cache, { data: postData }) => {
           const variables = {
@@ -57,48 +64,30 @@ const CreateLink: React.FC = (): JSX.Element => {
         onCompleted: () => navigate(Path.HOME),
       })
     },
-    [createLink, formState]
-  )
-
-  const handlerDescriptionChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>(
-    (e) => {
-      setFormState({
-        ...formState,
-        description: e.target.value,
-      })
-    },
-    [formState]
-  )
-
-  const handlerUrl = useCallback<React.ChangeEventHandler<HTMLInputElement>>(
-    (e) => {
-      setFormState({
-        ...formState,
-        url: e.target.value,
-      })
-    },
-    [formState]
+    [createLink]
   )
 
   return (
-    <div>
-      <form onSubmit={handlerSubmit}>
-        <div>
-          <input
-            value={formState.description}
-            onChange={handlerDescriptionChange}
+    <div className={styles.createLink}>
+      <h1 className={styles.createLink__title}>Create Link</h1>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validateSchema}
+        onSubmit={handlerSubmit}
+      >
+        <Form className={styles.createLink__form}>
+          <FormikInput
+            name="description"
             type="text"
+            size="xl"
             placeholder="A description for the link"
           />
-          <input
-            value={formState.url}
-            onChange={handlerUrl}
-            type="text"
-            placeholder="The URL for the link"
-          />
-        </div>
-        <button type="submit">Submit</button>
-      </form>
+          <FormikInput name="url" type="text" size="xl" placeholder="The URL for the link" />
+          <div className={styles.createLink__button}>
+            <FormikButton>Submit</FormikButton>
+          </div>
+        </Form>
+      </Formik>
     </div>
   )
 }

@@ -4,7 +4,7 @@ import React, { useMemo } from 'react'
 import { generatePath, Link as RouterLink } from 'react-router-dom'
 import { Link } from '@vechaiui/react'
 import styles from './Header.module.scss'
-import Profile from './Profile'
+import HeaderProfile from './HeaderProfile'
 
 const Header: React.FC = (): JSX.Element => {
   const { user } = useAuth()
@@ -31,7 +31,7 @@ const Header: React.FC = (): JSX.Element => {
         ))}
       </div>
       {!user.isGuest() ? (
-        <Profile />
+        <HeaderProfile />
       ) : (
         <Link as="div" className="text-black hover:text-blue-500">
           <RouterLink to={Path.AUTH_LOGIN}>login</RouterLink>

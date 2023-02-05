@@ -1,3 +1,5 @@
+const colors = require('tailwindcss/colors')
+
 module.exports = {
   mode: 'jit',
   purge: [
@@ -7,10 +9,17 @@ module.exports = {
   ],
   darkMode: 'class',
   theme: {
-    extend: {},
+    extend: {
+      colors,
+    },
   },
   variants: {
     extend: {},
   },
-  plugins: [require('@tailwindcss/forms'), require('@vechaiui/core')],
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('@vechaiui/core')({
+      colors: ['red'],
+    }),
+  ],
 }

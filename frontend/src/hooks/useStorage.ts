@@ -20,7 +20,7 @@ const useStorage = <T extends StorageType>(type: T): StorageMap[T] => {
   const storage = storages.get(type)
 
   if (!storage) {
-    throw new Error(`Storage`)
+    throw new Error(`Storage can't be found.`)
   }
 
   return storage

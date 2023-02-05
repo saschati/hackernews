@@ -40,30 +40,32 @@ const LinkList: React.FC<LinkListProps> = ({
 
   const handlerLinkVote = useVoteMutation(variables)
 
-  subscribeToMore<NewLinksSubscriptionQQL>({
-    document: NEW_LINKS_SUBSCRIPTION_QQL,
-    updateQuery: (prev, { subscriptionData }) => {
-      if (!subscriptionData.data) {
-        return prev
-      }
+  useMemo(() => {
+    subscribeToMore<NewLinksSubscriptionQQL>({
+      document: NEW_LINKS_SUBSCRIPTION_QQL,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) {
+          return prev
+        }
 
-      const newLink = subscriptionData.data.newLink
-      const exists = prev.links.records.find(({ id }) => id === newLink.id)
+        const newLink = subscriptionData.data.newLink
+        const exists = prev.links.records.find(({ id }) => id === newLink.id)
 
-      if (exists) {
-        return prev
-      }
+        if (exists) {
+          return prev
+        }
 
-      return {
-        ...prev,
-        links: {
-          records: [newLink, ...prev.links.records],
-          totla: prev.links.records.length + 1,
-          __typename: prev.links.__typename,
-        },
-      }
-    },
-  })
+        return {
+          ...prev,
+          links: {
+            records: [newLink, ...prev.links.records],
+            totla: prev.links.records.length + 1,
+            __typename: prev.links.__typename,
+          },
+        }
+      },
+    })
+  }, [subscribeToMore])
 
   if (!data) {
     return <>Items not found.</>
