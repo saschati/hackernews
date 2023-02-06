@@ -1,4 +1,3 @@
-@use 'src/styles/core/functions' as f;
 @use 'src/styles/core/mixin' as m;
 
 .createLink {
@@ -10,9 +9,5 @@
 
   &__button {
     margin-left: auto;
-  }
-
-  &__title {
-    @include m.text(f.size(34px), $ta: center);
   }
 }

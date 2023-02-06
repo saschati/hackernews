@@ -1,8 +1,8 @@
 import { Input as InputUI, InputProps as InputPropsUI } from '@vechaiui/react'
-import React, { HTMLInputTypeAttribute, memo } from 'react'
+import React, { memo } from 'react'
 
 export type InputProps = InputPropsUI & {
-  type: HTMLInputTypeAttribute
+  type: React.HTMLInputTypeAttribute
   LeftElement?: React.FC
   RightElement?: React.FC
   errorMessage?: string

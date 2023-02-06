@@ -12,6 +12,7 @@ const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }): JSX.Elem
   const storage = useStorage(StorageType.LOCAL)
 
   const [getUser, { loading, error }] = useLazyQuery<UserQeuryQQL>(USER_QUERY_QQL, {
+    fetchPolicy: 'no-cache',
     onCompleted: (data) => {
       setUser(new UserManager(data?.user || null))
     },

@@ -79,13 +79,21 @@ export const Resolver = {
       args: SingUpArgs,
       { prisma }: ServerContext
     ) => {
+      const user = await prisma.user.findUnique({
+        where: { email: args.email },
+      });
+
+      if (user) {
+        throw new Error("User with email already exists");
+      }
+
       const password = await bcrypt.hash(args.password, 10);
-      const user = await prisma.user.create({ data: { ...args, password } });
-      const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
+      const newUser = await prisma.user.create({ data: { ...args, password } });
+      const token = jwt.sign({ userId: newUser.id }, process.env.APP_SECRET);
 
       return {
         token,
-        user,
+        user: newUser,
       };
     },
     login: async (_: undefined, args: LoginArgs, { prisma }: ServerContext) => {

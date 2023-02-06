@@ -15,7 +15,11 @@ const App: React.FC<React.PropsWithChildren> = ({ children }): JSX.Element => {
   const storage = useStorage(StorageType.LOCAL)
 
   const [client] = useMemo(() => {
-    const token = storage.get<string, null>(AUTH_TOKEN)
+    const getToken = () => {
+      const token = storage.get<string, null>(AUTH_TOKEN)
+
+      return token ? `Bearer ${token}` : ''
+    }
 
     const httpLink = createHttpLink({
       uri: env.apiUrl,
@@ -25,7 +29,7 @@ const App: React.FC<React.PropsWithChildren> = ({ children }): JSX.Element => {
       createClient({
         url: env.apiWsUrl,
         connectionParams: {
-          Authorization: token ? `Bearer ${token}` : '',
+          Authorization: getToken(),
         },
       })
     )
@@ -34,7 +38,7 @@ const App: React.FC<React.PropsWithChildren> = ({ children }): JSX.Element => {
       return {
         headers: {
           ...headers,
-          authorization: token ? `Bearer ${token}` : '',
+          authorization: getToken(),
         },
       }
     })

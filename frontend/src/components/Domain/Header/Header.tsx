@@ -2,7 +2,7 @@ import Path from 'config/path'
 import useAuth from 'hooks/useAuth'
 import React, { useMemo } from 'react'
 import { generatePath, Link as RouterLink } from 'react-router-dom'
-import { Link } from '@vechaiui/react'
+import Link from '../Router/Link'
 import styles from './Header.module.scss'
 import HeaderProfile from './HeaderProfile'
 
@@ -25,16 +25,16 @@ const Header: React.FC = (): JSX.Element => {
       </div>
       <div className={styles.header__navigate}>
         {navigateItems.map((item) => (
-          <Link as="div" className="text-black" key={item.href}>
-            <RouterLink to={item.href}>{item.label}</RouterLink>
+          <Link to={item.href} key={item.href} color="black">
+            {item.label}
           </Link>
         ))}
       </div>
       {!user.isGuest() ? (
         <HeaderProfile />
       ) : (
-        <Link as="div" className="text-black hover:text-blue-500">
-          <RouterLink to={Path.AUTH_LOGIN}>login</RouterLink>
+        <Link color="black" to={Path.AUTH_LOGIN} className="hover:text-blue-500">
+          login
         </Link>
       )}
     </div>

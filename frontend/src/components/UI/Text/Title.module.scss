@@ -1,0 +1,20 @@
+@use 'src/styles/core/functions' as f;
+@use 'src/styles/core/mixin' as m;
+
+.title {
+  &_position {
+    &_default {
+      @include m.text($ta: start);
+    }
+
+    &_center {
+      @include m.text($ta: center);
+    }
+  }
+
+  &_size {
+    &_default {
+      @include m.text(f.size(34px));
+    }
+  }
+}

@@ -14,6 +14,7 @@ import { Form, Formik } from 'formik'
 import Yup from 'utils/yup'
 import { FormikButton, FormikInput } from '../Formik'
 import styles from './CreateLink.module.scss'
+import { Error, Title } from 'components/UI/Text'
 
 type CreateLinkValues = Pick<LinkModel, 'description' | 'url'>
 
@@ -30,7 +31,7 @@ const initialValues: CreateLinkValues = {
 const CreateLink: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
 
-  const [createLink] = useMutation<CreateLinkMutationQQL>(CREATE_LINK_MUTATION_QQL)
+  const [createLink, { error }] = useMutation<CreateLinkMutationQQL>(CREATE_LINK_MUTATION_QQL)
 
   const handlerSubmit = useCallback(
     (values: CreateLinkValues) => {
@@ -69,13 +70,14 @@ const CreateLink: React.FC = (): JSX.Element => {
 
   return (
     <div className={styles.createLink}>
-      <h1 className={styles.createLink__title}>Create Link</h1>
+      <Title position="center">Create Link</Title>
       <Formik
         initialValues={initialValues}
         validationSchema={validateSchema}
         onSubmit={handlerSubmit}
       >
         <Form className={styles.createLink__form}>
+          <Error message={error?.message} />
           <FormikInput
             name="description"
             type="text"

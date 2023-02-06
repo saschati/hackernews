@@ -2,7 +2,11 @@ import { Signup } from 'components/Domain/Auth'
 import React from 'react'
 
 const SignupController: React.FC = (): JSX.Element => {
-  return <Signup />
+  return (
+    <div className="w-96 m-60 mx-auto">
+      <Signup />
+    </div>
+  )
 }
 
 export default SignupController
