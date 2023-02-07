@@ -1,0 +1,12 @@
+@use 'src/styles/core/mixin' as m;
+@use 'src/styles/core/functions' as f;
+
+.error {
+  @include m.flex(column nowrap, $ai: center);
+
+  &__message {
+    margin-top: 24px;
+
+    @include m.text(f.size(), $ta: center);
+  }
+}

@@ -1,3 +1,5 @@
-.link-list {
-  background-color: white;
+@use 'src/styles/core/mixin' as m;
+
+.linkList {
+  @include m.flex(column nowrap, $gap: 16px);
 }

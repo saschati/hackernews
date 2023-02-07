@@ -3,6 +3,7 @@ import { CreateLinkController, LinksController } from 'controllers/Link'
 import HomeController from 'controllers/Home'
 import React from 'react'
 import Path from './path'
+import { NoFoundController } from 'controllers/Error'
 
 export enum RouterAccess {
   ALL,
@@ -15,6 +16,8 @@ export interface Route {
   Component: React.ComponentType
   access: RouterAccess
 }
+
+export const NoFoundComponent = NoFoundController
 
 const routes: Array<Route> = [
   {

@@ -1,0 +1,34 @@
+@use 'src/styles/core/functions' as f;
+@use 'src/styles/core/mixin' as m;
+
+.checkIcon {
+  display: inline-block;
+  position: relative;
+
+  --_check-width: 8px;
+  --_check-height: 12px;
+  --_check-color: #{f.color(black)};
+
+  @include m.square(20px, 50%);
+
+  &::before {
+    content: '';
+
+    position: absolute;
+
+    box-shadow: 3px 3px 0 f.v(_check-color);
+    transform: rotate(45deg);
+
+    @include m.box(f.v(_check-width), f.v(_check-height));
+    @include m.coords(
+      $t: calc(50% - calc(f.v(_check-height) / 2)),
+      $l: calc(50% - calc(f.v(_check-width) / 2))
+    );
+  }
+
+  &_type {
+    &_active {
+      --_check-color: #{f.color(light-cyan)};
+    }
+  }
+}

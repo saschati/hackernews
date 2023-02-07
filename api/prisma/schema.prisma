@@ -12,7 +12,7 @@ model Link {
   createdAt   DateTime @default(now())
   description String
   url         String
-  postedBy    User?    @relation(fields: [postedById], references: [id])
+  postedBy    User?    @relation(fields: [postedById], references: [id], onDelete: Cascade)
   postedById  Int?
   votes       Vote[]
 }
@@ -28,9 +28,9 @@ model User {
 
 model Vote {
   id     Int  @id @default(autoincrement())
-  link   Link @relation(fields: [linkId], references: [id])
+  link   Link @relation(fields: [linkId], references: [id], onDelete: Cascade)
   linkId Int
-  user   User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
 
   @@unique([linkId, userId])

@@ -5,6 +5,7 @@ import { Vote } from 'types/model/vote'
 export interface LinkQueryQQL {
   links: {
     records: Array<Link>
+    total: number
     __typename: 'LinkRecord'
   }
 }
@@ -12,6 +13,7 @@ export interface LinkQueryQQL {
 export const LINKS_QUERY_QQL = gql`
   query FeedQuery($paggin: Paggination, $orderBy: LinkOrderByInput) {
     links(paggin: $paggin, orderBy: $orderBy) {
+      total
       records {
         id
         createdAt
@@ -76,31 +78,6 @@ export const VOTE_MUTATION_QQL = gql`
       }
       user {
         id
-      }
-    }
-  }
-`
-
-export type LinksSerchQueryQQL = LinkQueryQQL
-
-export const LINKS_SEARCH_QUERY_QQL = gql`
-  query FeedSearchQuery($filter: String!) {
-    links(filter: $filter) {
-      records {
-        id
-        url
-        description
-        createdAt
-        postedBy {
-          id
-          name
-        }
-        votes {
-          id
-          user {
-            id
-          }
-        }
       }
     }
   }

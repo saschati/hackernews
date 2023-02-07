@@ -1,0 +1,63 @@
+@use 'src/styles/core/functions' as f;
+@use 'src/styles/core/mixin' as m;
+
+.pagginate {
+  @include m.flex($gap: 8px);
+
+  list-style-type: none;
+
+  &__item {
+    flex: 0 0 30px;
+  }
+
+  &__link {
+    @include m.text(f.size(), $w: 500, $c: f.color(vivid-orange));
+
+    @include m.flex(center);
+
+    padding-inline: 5px;
+
+    min-width: 30px;
+    min-height: 30px;
+
+    border-radius: 2px;
+    border: 2px solid f.color(light-blue);
+
+    cursor: pointer;
+  }
+
+  &__previous &__link {
+    border-radius: 50% 0 0 50%;
+  }
+
+  &__next &__link {
+    border-radius: 0 50% 50% 0;
+  }
+
+  &__break &__link {
+    border-color: transparent;
+  }
+
+  &__item_type_active {
+    background-color: f.color(light-blue);
+    border-color: transparent;
+  }
+
+  &__item_type_active &__link {
+    color: f.color(white);
+  }
+
+  &__item_type_disabled {
+    border-color: f.color(black);
+    opacity: 0.2;
+  }
+
+  &__item_type_disabled &__link {
+    color: f.color(black);
+  }
+
+  &__item_type_disabled,
+  &__item_type_disabled &__link {
+    cursor: default;
+  }
+}

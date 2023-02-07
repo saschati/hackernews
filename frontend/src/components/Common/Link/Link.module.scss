@@ -1,3 +1,74 @@
+@use 'src/styles/core/mixin' as m;
+@use 'src/styles/core/functions' as f;
+
 .link {
-  background-color: white;
+  @include m.flex($gap: 16px);
+
+  min-height: 125px;
+  padding: 10px;
+  width: 100%;
+
+  box-shadow: 2px 1px 2px f.color(light-blue);
+  border: 1px solid f.color(light-blue);
+  border-radius: 4px;
+
+  &__vote {
+    @include m.flex(column nowrap, $gap: 16px, $jc: center, $ai: center);
+
+    width: 100px;
+
+    border: 1px dashed f.color(vivid-orange);
+    border-radius: 6.5px;
+  }
+
+  &__count {
+    @include m.text(f.size(26px), $w: 900, $ta: center);
+    opacity: 0.6;
+  }
+
+  &__icon {
+    cursor: pointer;
+  }
+
+  &__content {
+    flex: 1;
+    @include m.flex($jc: space-between);
+  }
+
+  &__url {
+    position: relative;
+
+    @include m.text(f.size(18px), $w: 500);
+
+    &::after {
+      content: '';
+
+      position: absolute;
+
+      @include m.box(100%, 1px);
+      @include m.coords($b: 0, $l: 0);
+
+      background-color: f.color(vivid-cyan);
+      opacity: 0.5;
+    }
+  }
+
+  &__description {
+    margin-top: 8px;
+
+    @include m.text(f.size(16px), $w: 400);
+    opacity: 0.45;
+  }
+
+  &__user {
+    @include m.flex(column nowrap, $ai: center);
+  }
+
+  &__name {
+    @include m.text(f.size(14px), $w: 400);
+  }
+
+  &__created {
+    @include m.text(f.size(12px), $w: 400);
+  }
 }

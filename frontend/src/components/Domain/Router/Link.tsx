@@ -1,13 +1,13 @@
 import React, { memo } from 'react'
 import { Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-dom'
 import Path from 'config/path'
-import { Link as LinkUI, LinkProps as LinkUILinkProps } from '@vechaiui/react'
+import { Link as LinkUI, LinkProps as LinkUIProps } from '@vechaiui/react'
 import classNames from 'classnames'
 
 type LinkColor = 'blue' | 'black' | 'none'
 
 export type LinkProps = React.PropsWithChildren &
-  LinkUILinkProps &
+  LinkUIProps &
   RouterLinkProps & {
     to: Path | string
     color?: LinkColor

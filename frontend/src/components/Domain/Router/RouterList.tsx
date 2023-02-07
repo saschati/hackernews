@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { Route, Routes } from 'react-router-dom'
-import routes, { RouterAccess } from 'config/routers'
+import routes, { NoFoundComponent, RouterAccess } from 'config/routers'
 import useAuth from 'hooks/useAuth'
 
 const RouterList: React.FC = (): JSX.Element => {
@@ -25,6 +25,7 @@ const RouterList: React.FC = (): JSX.Element => {
       {filterRouters.map(({ path, Component }) => (
         <Route key={path} path={path} element={<Component />} />
       ))}
+      <Route path="*" element={<NoFoundComponent />} />
     </Routes>
   )
 }
