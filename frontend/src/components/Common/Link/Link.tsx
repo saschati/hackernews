@@ -17,7 +17,7 @@ const Link: React.FC<LinkProps> = ({ link, className, onVote }): JSX.Element => 
   const { user } = useAuth()
 
   const isActive = useMemo(() => {
-    if (!link.votes.length) {
+    if (!link.votes.length || user.isGuest() === true) {
       return false
     }
 

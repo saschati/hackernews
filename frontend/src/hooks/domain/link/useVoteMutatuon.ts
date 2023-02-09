@@ -40,6 +40,7 @@ const useVoteMutation = (variables = {}): LinkProps['onVote'] => {
             data: {
               links: {
                 records: updatedLinks,
+                total: dataCache?.links.total,
               },
             },
             variables,

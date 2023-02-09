@@ -35,7 +35,7 @@ const serverCleanup = useServer(
     context: async (context: Context<WsConnectionParams>) => ({
       prisma,
       pubsub,
-      userId: context.connectionParams
+      userId: context.connectionParams?.Authorization
         ? getUserId(context.connectionParams.Authorization)
         : null,
     }),

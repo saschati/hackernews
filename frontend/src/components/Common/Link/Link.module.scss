@@ -13,6 +13,8 @@
   border-radius: 4px;
 
   &__vote {
+    flex-shrink: 0;
+
     @include m.flex(column nowrap, $gap: 16px, $jc: center, $ai: center);
 
     width: 100px;
@@ -32,13 +34,15 @@
 
   &__content {
     flex: 1;
-    @include m.flex($jc: space-between);
+    @include m.flex($jc: space-between, $gap: 16px);
   }
 
   &__url {
     position: relative;
 
     @include m.text(f.size(18px), $w: 500);
+
+    word-break: break-all;
 
     &::after {
       content: '';
@@ -61,7 +65,11 @@
   }
 
   &__user {
+    flex-shrink: 0;
+
     @include m.flex(column nowrap, $ai: center);
+
+    width: 100px;
   }
 
   &__name {

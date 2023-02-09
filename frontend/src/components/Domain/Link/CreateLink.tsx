@@ -57,6 +57,7 @@ const CreateLink: React.FC = (): JSX.Element => {
             data: {
               links: {
                 records: [...(data?.links.records || []), postData?.postLink],
+                total: (data?.links.total || 0) + 1,
               },
             },
             variables,

@@ -47,17 +47,21 @@
     color: f.color(white);
   }
 
-  &__item_type_disabled {
+  &__item_type_disabled,
+  &__item_type_active + &__next {
     border-color: f.color(black);
     opacity: 0.2;
   }
 
-  &__item_type_disabled &__link {
+  &__item_type_disabled &__link,
+  &__item_type_active + &__next &__link {
     color: f.color(black);
   }
 
   &__item_type_disabled,
-  &__item_type_disabled &__link {
+  &__item_type_active + &__next,
+  &__item_type_disabled &__link,
+  &__item_type_active + &__next &__link {
     cursor: default;
   }
 }

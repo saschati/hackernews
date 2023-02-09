@@ -85,7 +85,7 @@ const LinkList: React.FC<LinkListProps> = ({
       <div className="flex justify-center mt-4 mx-auto">
         <Pagginate
           onChange={onPageChange}
-          pageCount={data.links.total / take}
+          pageCount={Math.ceil(data.links.total / take)}
           forcePage={page || 1}
         />
       </div>
