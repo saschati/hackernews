@@ -9,7 +9,12 @@ export type CheckIconProps = {
 }
 
 const CheckIcon: React.FC<CheckIconProps> = ({ isActive = false }): JSX.Element => {
-  return <div className={ctx({ checkIcon: true, checkIcon_type_active: isActive })} />
+  return (
+    <div
+      data-testid="checkicon"
+      className={ctx({ checkIcon: true, checkIcon_type_active: isActive })}
+    />
+  )
 }
 
 export default memo(CheckIcon)

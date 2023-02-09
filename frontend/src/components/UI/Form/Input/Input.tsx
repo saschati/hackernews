@@ -16,7 +16,7 @@ const Input: React.FC<InputProps> = ({
   ...rest
 }): JSX.Element => {
   return (
-    <div className="w-full">
+    <div data-testid="input" className="w-full">
       <InputUI.Group>
         {LeftElement && (
           <InputUI.LeftElement>

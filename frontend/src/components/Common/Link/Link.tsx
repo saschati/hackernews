@@ -25,7 +25,7 @@ const Link: React.FC<LinkProps> = ({ link, className, onVote }): JSX.Element => 
   }, [link.votes, user])
 
   return (
-    <div className={classNames(styles.link, className)}>
+    <div data-testid="link" className={classNames(styles.link, className)}>
       <div className={styles.link__vote}>
         <span className={styles.link__count}>{link.votes.length}</span>
         {!user.isGuest() && (

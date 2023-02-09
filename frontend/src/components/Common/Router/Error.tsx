@@ -9,7 +9,7 @@ export type ErrorProps = {
 
 const Error: React.FC<ErrorProps> = ({ code, message }): JSX.Element => {
   return (
-    <div className={styles.error}>
+    <div data-testid="error" className={styles.error}>
       <Title position="center">Error: {code}</Title>
       <p className={styles.error__message}>{message}</p>
     </div>

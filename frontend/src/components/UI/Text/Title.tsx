@@ -32,6 +32,7 @@ const Title: React.FC<TitleProps> = ({
 
   return (
     <CustomTag
+      data-testid="text-title"
       className={classNames(
         styles.title,
         SIZE_TO_CLASS[size],

@@ -11,7 +11,11 @@ const Error: React.FC<ErrorProps> = ({ message, className }): JSX.Element | null
     return null
   }
 
-  return <p className={classNames('text-sm text-red-600', className)}>* {message}</p>
+  return (
+    <p data-testid="text-error" className={classNames('text-sm text-red-600', className)}>
+      * {message}
+    </p>
+  )
 }
 
 export default memo(Error)

@@ -19,6 +19,7 @@ const Modal: React.FC<LogoutConfirmModalProps> = ({
       <Dialog
         as="div"
         className="fixed inset-0 overflow-y-auto z-modal"
+        data-testid="modal"
         open={isOpen}
         onClose={onClose}
       >
