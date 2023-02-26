@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { Suspense, useMemo } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import routes, { NoFoundComponent, RouterAccess } from 'config/routers'
 import useAuth from 'hooks/useAuth'
@@ -21,12 +21,14 @@ const RouterList: React.FC = (): JSX.Element => {
   }, [user])
 
   return (
-    <Routes>
-      {filterRouters.map(({ path, Component }) => (
-        <Route key={path} path={path} element={<Component />} />
-      ))}
-      <Route path="*" element={<NoFoundComponent />} />
-    </Routes>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+        {filterRouters.map(({ path, Component }) => (
+          <Route key={path} path={path} element={<Component />} />
+        ))}
+        <Route path="*" element={<NoFoundComponent />} />
+      </Routes>
+    </Suspense>
   )
 }
 

@@ -1,9 +1,20 @@
-import { LoginController, SignupController } from 'controllers/Auth'
-import { CreateLinkController, LinksController } from 'controllers/Link'
-import HomeController from 'controllers/Home'
 import React from 'react'
 import Path from './path'
 import { NoFoundController } from 'controllers/Error'
+
+const HomeController = React.lazy(() => import('controllers/Home'))
+const LoginController = React.lazy(() =>
+  import('controllers/Auth').then((module) => ({ default: module.LoginController }))
+)
+const SignupController = React.lazy(() =>
+  import('controllers/Auth').then((module) => ({ default: module.SignupController }))
+)
+const CreateLinkController = React.lazy(() =>
+  import('controllers/Link').then((module) => ({ default: module.CreateLinkController }))
+)
+const LinksController = React.lazy(() =>
+  import('controllers/Link').then((module) => ({ default: module.LinksController }))
+)
 
 export enum RouterAccess {
   ALL,

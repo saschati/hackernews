@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useLayoutEffect, useMemo, useState } from 'react'
 import { Device, LayoutContext } from './LayoutContext'
 
 const DISPLAY = {
@@ -10,7 +10,7 @@ const DISPLAY = {
 const LayoutProvider: React.FC<React.PropsWithChildren> = ({ children }): JSX.Element => {
   const [device, setDevice] = useState<Device | null>(null)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const listener = () => {
       let device: Device | null = null
 
