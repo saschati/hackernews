@@ -59,7 +59,7 @@ app-init: api-init frontend-init
 
 ## —— API ———————————————————————————————————————————————————————————————————————————————
 api-init: ## Init API
-api-init: api-npm-install api-prisma-migration
+api-init: api-npm-install api-prisma-migration api-prisma-generate
 
 api-npm-install: ## Install npm package
 	docker-compose run --rm api-node-cli npm install
@@ -72,6 +72,9 @@ api-prisma-gen-migration: ## Generate new migration by schema
 
 api-prisma-migration: ## Run migrations
 	docker-compose run --rm api-node-cli npx prisma migrate deploy
+
+api-prisma-generate: ## Generate models on schema
+	docker-compose run --rm api-node-cli npx prisma generate
 
 api-logs: ## Show logs
 	docker-compose logs --follow api-node
